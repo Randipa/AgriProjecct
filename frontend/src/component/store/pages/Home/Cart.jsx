@@ -29,176 +29,63 @@ function Cart({ cart, setCart }) {
   };
 
   return (
-    <div className="container py-5">
-      <style jsx>{`
-        /* Custom color definitions using your color palette */
-        :root {
-          --primary: #4CAF50;        /* Green */
-          --secondary: #8D6E63;      /* Earthy Brown */
-          --info: #2E7D32;           /* Deep Blue/Green */
-          --warning: #FFC107;        /* Golden Yellow */
-          --danger: #D84315;         /* Tomato Red */
-          --light-accent: #FFEB3B;   /* Sunshine Yellow */
-          --warm-accent: #E65100;    /* Rust Orange */
-        }
-        
-        .btn-outline-nature {
-          color: #4CAF50;
-          border-color: #4CAF50;
-        }
-        .btn-outline-nature:hover {
-          background-color: #4CAF50;
-          color: white;
-        }
-        .btn-nature {
-          background-color: #4CAF50;
-          border-color: #4CAF50;
-          color: white;
-        }
-        .btn-nature:hover {
-          background-color: #2E7D32;
-          border-color: #2E7D32;
-        }
-        .bg-nature {
-          background-color: #4CAF50;
-          color: white;
-        }
-        .bg-nature-light {
-          background-color: #FFEB3B;
-          color: #212529;
-        }
-        .text-nature {
-          color: #4CAF50;
-        }
-        .text-warm {
-          color: #E65100;
-        }
-        .border-nature {
-          border-color: #4CAF50 !important;
-        }
-        .badge-earth {
-          background-color: #8D6E63;
-          color: white;
-        }
-        .btn-danger-custom {
-          color: white;
-          background-color: #D84315;
-          border-color: #D84315;
-        }
-        .btn-outline-danger-custom {
-          color: #D84315;
-          border-color: #D84315;
-        }
-        .btn-outline-danger-custom:hover {
-          color: white;
-          background-color: #D84315;
-        }
-      `}</style>
-      <div className="row justify-content-center">
-        <div className="col-lg-10">
-          {/* Back Button */}
-          <Link to="/store" className="btn btn-outline-nature mb-4">
-            <FaArrowLeft className="me-2" />
-            Continue Shopping
-          </Link>
+    <div className="container mx-auto py-10 px-4">
+      <div className="max-w-4xl mx-auto">
+        <Link to="/store" className="flex items-center text-green-600 hover:text-green-800 mb-4">
+          <FaArrowLeft className="mr-2" /> Continue Shopping
+        </Link>
 
-          {/* Title */}
-          <h2 className="display-6 text-center mb-4 text-nature">Shopping Cart</h2>
+        <h2 className="text-3xl text-center font-semibold text-green-700 mb-6">Shopping Cart</h2>
 
-          {/* Cart Content */}
-          {cart.length === 0 ? (
-            <div className="text-center py-5">
-              <FaShoppingCart className="display-1 text-secondary mb-4" />
-              <h3 className="text-secondary mb-4">Your cart is empty</h3>
-              <Link to="/store" className="btn btn-nature btn-lg px-5">
-                Start Shopping
+        {cart.length === 0 ? (
+          <div className="text-center py-10">
+            <FaShoppingCart className="text-6xl text-gray-400 mb-4" />
+            <h3 className="text-gray-500 mb-4">Your cart is empty</h3>
+            <Link to="/store" className="bg-green-600 text-white py-2 px-6 rounded-lg hover:bg-green-700">
+              Start Shopping
+            </Link>
+          </div>
+        ) : (
+          <div>
+            <div className="bg-white shadow-lg rounded-lg mb-6">
+              {cart.map((item, index) => (
+                <div key={item._id} className={`p-4 ${index !== cart.length - 1 ? 'border-b border-green-300' : ''}`}>
+                  <div className="flex flex-col md:flex-row items-center justify-between">
+                    <div>
+                      <h5 className="text-xl font-semibold text-green-700 mb-1">{item.name}</h5>
+                      <span className="bg-brown-600 text-white px-2 py-1 rounded text-sm mr-2">{item.category || 'N/A'}</span>
+                      <small className="text-gray-500">Available: {item.qty}</small>
+                      <p className="text-lg font-medium text-orange-600">Unit Price: LKR {item.price.toFixed(2)}</p>
+                    </div>
+
+                    <div className="flex items-center">
+                      <button className="px-3 py-1 border border-green-500 text-green-500 hover:bg-green-500 hover:text-white rounded" onClick={() => handleQuantityChange(item, -1)}>-</button>
+                      <span className="mx-2 text-lg font-medium">{item.quantity}</span>
+                      <button className="px-3 py-1 border border-green-500 text-green-500 hover:bg-green-500 hover:text-white rounded" onClick={() => handleQuantityChange(item, 1)}>+</button>
+                    </div>
+
+                    <div className="text-lg font-medium text-orange-600">LKR {(item.price * item.quantity).toFixed(2)}</div>
+
+                    <button className="text-red-500 hover:text-red-700" onClick={() => handleRemoveFromCart(item)}>
+                      <FaTrashAlt className="text-xl" />
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="bg-yellow-100 p-6 rounded-lg">
+              <div className="flex justify-between items-center">
+                <h4 className="text-xl font-medium text-gray-700">Total Amount</h4>
+                <h3 className="text-2xl font-bold text-orange-600">LKR {getTotalPrice()}</h3>
+              </div>
+              <hr className="my-4 border-brown-600" />
+              <Link to="/checkout" className="block bg-green-600 text-white text-center py-3 rounded-lg hover:bg-green-700">
+                Proceed to Checkout
               </Link>
             </div>
-          ) : (
-            <div>
-              {/* Cart Items */}
-              <div className="card shadow-sm border-0 mb-4">
-                {cart.map((item, index) => (
-                  <div 
-                    key={item._id} 
-                    className={`p-4 ${index !== cart.length - 1 ? 'border-bottom border-nature' : ''}`}
-                  >
-                    <div className="row align-items-center">
-                      <div className="col-md-6">
-                        <h5 className="mb-2 text-nature">{item.name}</h5>
-                        <div className="mb-2">
-                          <span className="badge badge-earth me-2">{item.category || 'N/A'}</span>
-                          <small className="text-secondary">Available: {item.qty}</small>
-                        </div>
-                        <p className="mb-0">
-                          <strong>Unit Price: </strong>
-                          <span className="text-warm">LKR {item.price.toFixed(2)}</span>
-                        </p>
-                      </div>
-
-                      <div className="col-md-3">
-                        <div className="input-group input-group-sm justify-content-center">
-                          <button
-                            className="btn btn-outline-nature"
-                            onClick={() => handleQuantityChange(item, -1)}
-                          >
-                            -
-                          </button>
-                          <span className="input-group-text bg-white border-nature px-3">
-                            {item.quantity}
-                          </span>
-                          <button
-                            className="btn btn-outline-nature"
-                            onClick={() => handleQuantityChange(item, 1)}
-                          >
-                            +
-                          </button>
-                        </div>
-                      </div>
-
-                      <div className="col-md-2 text-end">
-                        <p className="h5 mb-0 text-warm">
-                          LKR {(item.price * item.quantity).toFixed(2)}
-                        </p>
-                      </div>
-
-                      <div className="col-md-1 text-end">
-                        <button
-                          className="btn btn-outline-danger-custom btn-sm rounded-circle"
-                          onClick={() => handleRemoveFromCart(item)}
-                        >
-                          <FaTrashAlt />
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Order Summary */}
-              <div className="card shadow-sm border-0" style={{ backgroundColor: '#F9FBE7' }}>
-                <div className="card-body p-4">
-                  <div className="row align-items-center">
-                    <div className="col-md-6">
-                      <h4 className="mb-0 text-secondary">Total Amount</h4>
-                    </div>
-                    <div className="col-md-6 text-md-end">
-                      <h3 className="text-warm mb-0">LKR {getTotalPrice()}</h3>
-                    </div>
-                  </div>
-                  <hr className="my-4" style={{ borderColor: '#8D6E63' }} />
-                  <Link 
-                    to="/checkout" 
-                    className="btn btn-lg w-100"
-                    style={{ backgroundColor: '#4CAF50', color: 'white' }}
-                  >
-                    Proceed to Checkout
-                  </Link>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </div>
   );

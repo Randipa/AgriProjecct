@@ -1,3 +1,4 @@
+// Converted BuyerHeader Component with Tailwind
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -11,54 +12,79 @@ function BuyerHeader() {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
-      <div className="container-fluid px-4">
-        <Link className="navbar-brand d-flex align-items-center" to="/store">
-          
-          <span className="fw-bold text-success">Agri-Support</span>
+    <nav className="bg-white shadow-sm">
+      <div className="container mx-auto flex justify-between items-center py-4 px-6">
+        {/* Brand */}
+        <Link to="/store" className="text-2xl font-bold text-green-600">
+          Agri-Support
         </Link>
 
+        {/* Toggler (Mobile View) */}
         <button
-          className="navbar-toggler"
-          type="button"
+          className="lg:hidden text-gray-500 focus:outline-none"
           data-bs-toggle="collapse"
           data-bs-target="#navbarNav"
         >
-          <span className="navbar-toggler-icon"></span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M4 6h16M4 12h16m-7 6h7"
+            />
+          </svg>
         </button>
 
-        <div className="collapse navbar-collapse" id="navbarNav">
-          <ul className="navbar-nav ms-auto align-items-center">
-            {user && (
-              <li className="nav-item dropdown">
-                <button
-                  className="btn btn-outline-success dropdown-toggle"
-                  data-bs-toggle="dropdown"
+        {/* Links & User Info */}
+        <div
+          className="hidden lg:flex items-center space-x-6"
+          id="navbarNav"
+        >
+          {user && (
+            <div className="relative">
+              <button
+                className="flex items-center space-x-2 px-4 py-2 border rounded-lg text-green-600 hover:bg-green-100"
+                data-bs-toggle="dropdown"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
                 >
-                  <i className="bi bi-person-circle me-2"></i>
+                  <path
+                    fillRule="evenodd"
+                    d="M10 2a4 4 0 00-4 4v1a4 4 0 008 0V6a4 4 0 00-4-4zM4 8v7a4 4 0 004 4h4a4 4 0 004-4V8H4z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                <span>
                   {user.firstName} {user.lastName}
+                </span>
+              </button>
+              <div className="hidden absolute right-0 mt-2 w-48 bg-white border rounded-lg shadow-lg">
+                <Link
+                  to="/profile"
+                  className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                >
+                  Profile
+                </Link>
+                <hr className="my-1" />
+                <button
+                  onClick={handleLogout}
+                  className="w-full text-left block px-4 py-2 text-red-500 hover:bg-gray-100"
+                >
+                  Logout
                 </button>
-                <ul className="dropdown-menu dropdown-menu-end">
-                  <li>
-                    <Link to="/profile">
-                      <i className="bi bi-person me-2"></i>Profile
-                    </Link>
-                  </li>
-                  <li>
-                    <hr className="dropdown-divider" />
-                  </li>
-                  <li>
-                    <button 
-                      className="dropdown-item text-danger" 
-                      onClick={handleLogout}
-                    >
-                      <i className="bi bi-box-arrow-right me-2"></i>Logout
-                    </button>
-                  </li>
-                </ul>
-              </li>
-            )}
-          </ul>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </nav>

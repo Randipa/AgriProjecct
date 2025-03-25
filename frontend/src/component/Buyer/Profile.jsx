@@ -18,7 +18,6 @@ function Profile() {
   const [successMessage, setSuccessMessage] = useState('');
   const navigate = useNavigate();
 
-  // Fetch logged-in user details
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -51,7 +50,7 @@ function Profile() {
     try {
       const response = await axios.put(`http://localhost:5000/api/buyer/profile/${user.id}`, user);
       setSuccessMessage(response.data.message);
-      setTimeout(() => setSuccessMessage(''), 3000); // Clear success message after 3 seconds
+      setTimeout(() => setSuccessMessage(''), 3000);
     } catch (error) {
       console.error('Error updating profile:', error);
       setError('Failed to update profile. Please try again.');
@@ -65,144 +64,57 @@ function Profile() {
     try {
       await axios.delete(`http://localhost:5000/api/buyer/profile/${user.id}`);
       alert('Your account has been deleted successfully.');
-      localStorage.removeItem('user'); // Clear user data from localStorage
-      navigate('/'); // Redirect to signup page
+      localStorage.removeItem('user');
+      navigate('/');
     } catch (error) {
       console.error('Error deleting profile:', error);
       setError('Failed to delete profile. Please try again.');
     }
   };
 
-  // Custom theme styles (same as Store)
-  const styles = {
-    mainContainer: {
-      backgroundColor: '#FFEB3B10',
-      minHeight: '100vh',
-    },
-    headerText: {
-      color: '#2E7D32',
-    },
-    primaryBtn: {
-      backgroundColor: '#4CAF50',
-      borderColor: '#2E7D32',
-      color: 'white',
-    },
-    outlineBtn: {
-      backgroundColor: 'transparent',
-      borderColor: '#E65100',
-      color: '#E65100',
-    },
-    input: {
-      borderColor: '#FFC10730',
-    },
-    errorText: {
-      color: '#D84315',
-    },
-    successText: {
-      color: '#4CAF50',
-    },
-  };
-
   return (
-    <div className="d-flex flex-column vh-100">
+    <div className="flex flex-col min-h-screen bg-yellow-50">
       <BuyerHeader />
 
-      <main className="flex-grow-1" style={styles.mainContainer}>
-        <div className="container py-5">
-          <h1 className="display-4 fw-bold mb-4" style={styles.headerText}>My Profile</h1>
+      <main className="flex-grow py-10 px-4">
+        <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-lg p-6">
+          <h1 className="text-3xl font-bold text-green-700 mb-6">My Profile</h1>
 
           {loading ? (
-            <div className="text-center">
-              <div className="spinner-border text-success" role="status">
-                <span className="visually-hidden">Loading...</span>
-              </div>
+            <div className="flex justify-center">
+              <div className="animate-spin h-10 w-10 border-4 border-green-500 border-t-transparent rounded-full"></div>
             </div>
           ) : (
-            <div className="bg-light p-4 rounded shadow-sm">
-              {error && <p style={styles.errorText}>{error}</p>}
-              {successMessage && <p style={styles.successText}>{successMessage}</p>}
+            <div>
+              {error && <p className="text-red-600">{error}</p>}
+              {successMessage && <p className="text-green-500">{successMessage}</p>}
 
-              <div className="row">
-                <div className="col-md-6 mb-3">
-                  <label className="form-label">First Name</label>
-                  <input
-                    type="text"
-                    name="firstName"
-                    value={user.firstName}
-                    onChange={handleInputChange}
-                    className="form-control"
-                    style={styles.input}
-                  />
-                </div>
-                <div className="col-md-6 mb-3">
-                  <label className="form-label">Last Name</label>
-                  <input
-                    type="text"
-                    name="lastName"
-                    value={user.lastName}
-                    onChange={handleInputChange}
-                    className="form-control"
-                    style={styles.input}
-                  />
-                </div>
-                <div className="col-md-6 mb-3">
-                  <label className="form-label">Username</label>
-                  <input
-                    type="text"
-                    name="username"
-                    value={user.username}
-                    onChange={handleInputChange}
-                    className="form-control"
-                    style={styles.input}
-                  />
-                </div>
-                <div className="col-md-6 mb-3">
-                  <label className="form-label">Email</label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={user.email}
-                    onChange={handleInputChange}
-                    className="form-control"
-                    style={styles.input}
-                    disabled // Email is not editable
-                  />
-                </div>
-                <div className="col-md-6 mb-3">
-                  <label className="form-label">Phone Number</label>
-                  <input
-                    type="text"
-                    name="phoneNumber"
-                    value={user.phoneNumber}
-                    onChange={handleInputChange}
-                    className="form-control"
-                    style={styles.input}
-                  />
-                </div>
-                <div className="col-md-6 mb-3">
-                  <label className="form-label">Address</label>
-                  <input
-                    type="text"
-                    name="address"
-                    value={user.address}
-                    onChange={handleInputChange}
-                    className="form-control"
-                    style={styles.input}
-                  />
-                </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {['firstName', 'lastName', 'username', 'email', 'phoneNumber', 'address'].map((field) => (
+                  <div key={field}>
+                    <label className="block text-sm font-medium text-gray-700 capitalize">{field.replace(/([A-Z])/g, ' $1')}</label>
+                    <input
+                      type={field === 'email' ? 'email' : 'text'}
+                      name={field}
+                      value={user[field]}
+                      onChange={handleInputChange}
+                      className="w-full border text-green-950 border-yellow-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-green-500"
+                      disabled={field === 'email'}
+                    />
+                  </div>
+                ))}
               </div>
 
-              <div className="d-flex justify-content-between mt-4">
+              <div className="flex justify-between mt-6">
                 <button
-                  className="btn btn-danger"
+                  className="bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700"
                   onClick={handleDeleteProfile}
                 >
                   Delete Account
                 </button>
                 <button
-                  className="btn btn-success"
+                  className="bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700"
                   onClick={handleUpdateProfile}
-                  style={styles.primaryBtn}
                 >
                   Update Profile
                 </button>
