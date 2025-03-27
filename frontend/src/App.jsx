@@ -2,6 +2,9 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import React, { useState } from 'react';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
+import HomePage from './component/Home/HomePage';
+import UserMainPage from './component/Home/UserMainPage';
+
 // Online Store
 import Store from './component/store/pages/Home/Store';
 import Cart from './component/store/pages/Home/Cart';
@@ -12,6 +15,20 @@ import MyOrders from './component/store/components/MyOrders';
 import BuyerLogin from './component/Buyer/BuyerLogin';
 import BuyerSignup from './component/Buyer/BuyerSignup';
 import Profile from './component/Buyer/Profile';
+
+//registration
+import RegistrationFormHome from './component/registration/RegistrationFormHome';
+
+//logistic
+import Logistics from './component/logistics/Logistics';
+import WarehouseReqHome from './component/logistics/WarehouseReqHome';
+import DeliveryOrderHome from './component/logistics/DeliveryOrderHome';
+
+//agreeSupport
+import Home from './component/agreeSupport/pages/Home';
+import FarmerFeedback from './component/agreeSupport/pages/FarmerFedback';
+import Advice from './component/agreeSupport/pages/Advice';
+import SkillDevelopment from './component/agreeSupport/pages/SkillDevelopment';
 
 function App() {
   const [cart, setCart] = useState([]);
@@ -25,9 +42,27 @@ function App() {
           <Route path="/cart" element={<Cart cart={cart} setCart={setCart} />} />         
           <Route path="/my-orders" element={<MyOrders />} />
 
-          <Route path="/" element={<BuyerLogin />} />
+          <Route path="/buyer-login" element={<BuyerLogin />} />
           <Route path="/buyersignup" element={<BuyerSignup />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/" element={<HomePage />} />
+          <Route path="/main" element={<UserMainPage />} />
+          <Route path="/logistic" element={<Logistics />} />
+
+          <Route path="/register" element={<RegistrationFormHome/>} />
+
+        <Route path="/werehouse-reg" element={<WarehouseReqHome />} />
+        <Route path="/devlier-order" element={<DeliveryOrderHome />} />
+
+        <Route path="/agreeSupport" element={<Home />} />
+        <Route path="/feedback" element={<FarmerFeedback />} />
+        <Route path="/advice" element={<Advice />} />
+        <Route path="/skill_development" element={<SkillDevelopment />} />
+   
+
+     
+
+        
         </Routes>
       </div>
     </Router>

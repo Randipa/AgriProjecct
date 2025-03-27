@@ -22,12 +22,12 @@ const buyerSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true, // Ensures unique email addresses
-    match: [/^\S+@\S+\.\S+$/, 'Please use a valid email address.'], // Email validation regex
+    match: [/^\S+@\S+\.\S+$/, 'Please use a valid email address.'], 
   },
   phoneNumber: {
     type: String,
     required: true,
-    match: [/^\d{10}$/, 'Please enter a valid 10-digit phone number.'], // Simple phone number validation
+    match: [/^\d{10}$/, 'Please enter a valid 10-digit phone number.'], 
   },
   address: {
     type: String,

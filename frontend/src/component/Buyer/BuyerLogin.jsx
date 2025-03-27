@@ -21,7 +21,7 @@ function Login() {
       const response = await axios.post('http://localhost:5000/api/buyer/login', formData);
       localStorage.setItem('user', JSON.stringify(response.data.user));
       setLoading(false);
-      navigate('/store');
+      navigate('/main');
     } catch (err) {
       setLoading(false);
       setError(err.response?.data?.message || 'Error logging in');

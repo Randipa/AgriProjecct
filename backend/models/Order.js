@@ -3,10 +3,6 @@ const mongoose = require('mongoose');
 // Define the schema
 const orderSchema = new mongoose.Schema({
   userId: { 
-    // Commented out the ObjectId type to allow storing fake user IDs as strings
-    // type: mongoose.Schema.Types.ObjectId, 
-    // ref: 'User', 
-    // required: true 
     type: String, // Allow storing fake user IDs as strings
     required: true // Ensure the userId is still required
   },
@@ -31,7 +27,7 @@ const orderSchema = new mongoose.Schema({
     quantity: { type: Number, required: true, min: 1 }
   }],
   paymentInfo: {
-    cardNumber: { type: String, required: true }, // Be careful with sensitive data in production
+    cardNumber: { type: String, required: true }, 
     expirationDate: { type: String, required: true },
     cvv: { type: String, required: true }
   },
